@@ -37,7 +37,15 @@ namespace CSharpViaTest.Collections._10_EnumerablePractices
             this IEnumerable<TSource> source,
             Func<TSource, TSource, TSource> func)
         {
-            throw new NotImplementedException();
+            if (source.Count() == 0) throw new InvalidOperationException();
+            if (func == null ||source == null) throw new ArgumentNullException();
+            TSource result = source.FirstOrDefault();
+            for (int i = 1 ; i < source.Count(); i++)
+            {
+                result = func(result, source.ElementAt(i));
+            }
+
+            return result;
         }
 
         #endregion

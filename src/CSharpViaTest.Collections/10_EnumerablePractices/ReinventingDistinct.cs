@@ -65,28 +65,41 @@ namespace CSharpViaTest.Collections._10_EnumerablePractices
 
         class DistinctEnumerator<TSource> : IEnumerator<TSource>
         {
+            private HashSet<TSource> result;
+            private TSource current;
+            private IEnumerator<TSource> source;
             public DistinctEnumerator(IEnumerable<TSource> source, IEqualityComparer<TSource> comparer)
             {
-                throw new NotImplementedException();
+                this.source = source.GetEnumerator();
+                this.result = new HashSet<TSource>(comparer);
             }
 
             public bool MoveNext()
             {
-                throw new NotImplementedException();
+                while (source.MoveNext())
+                {
+                    current = source.Current;
+                    if (result.Add(current))
+                    {
+                        return true;
+                    }
+                }
+                
+                return false;
             }
 
             public void Reset()
             {
-                throw new NotImplementedException();
+                source.Reset();
             }
 
-            public TSource Current { get { throw new NotImplementedException(); } }
+            public TSource Current => current;
 
             object IEnumerator.Current => Current;
 
             public void Dispose()
             {
-                throw new NotImplementedException();
+                source.Dispose();
             }
         }
 
