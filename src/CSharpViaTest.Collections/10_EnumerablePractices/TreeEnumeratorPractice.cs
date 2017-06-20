@@ -68,28 +68,79 @@ namespace CSharpViaTest.Collections._10_EnumerablePractices
 
         class TreeNodeEnumerator : IEnumerator<TreeNode>
         {
+            private TreeNode currentRoot;
+            private TreeNode current;
+            private TreeNode root;
+            private List<TreeNode> result;
+            private IEnumerator childEnumerator;
+            private IEnumerator rootChildEnumerator;
+            private int nodeCount;
             public TreeNodeEnumerator(TreeNode root)
             {
-                throw new NotImplementedException();
+                this.currentRoot = root;
+                this.root = root;
+                result = new List<TreeNode>();
+                nodeCount = GetNodeCount(root);
+                rootChildEnumerator = root.Children.GetEnumerator();
+                rootChildEnumerator.MoveNext();
             }
 
             public bool MoveNext()
             {
-                throw new NotImplementedException();
+                while (result.Count() < nodeCount)
+                {
+                    if (!result.Contains(currentRoot)) 
+                    {
+                        result.Add(currentRoot);
+                        return true;
+                    }
+
+                    if (currentRoot.Children?.Count() > 0)
+                    {
+                        childEnumerator = currentRoot.Children.GetEnumerator(); 
+                    }
+
+                    if (childEnumerator.MoveNext())
+                    {
+                        currentRoot = childEnumerator.Current as TreeNode;
+                        result.Add(currentRoot);
+                        return true;
+                    }
+
+                    if (rootChildEnumerator.MoveNext())
+                    {
+                        currentRoot = rootChildEnumerator.Current as TreeNode;
+                    }
+                }
+
+                return false;
+            }
+
+            private int GetNodeCount(TreeNode node)
+            {
+                var count = 0;
+                if(node != null) count = 1 ;
+                if(node.Children == null) return count;
+                foreach (var child in node.Children)
+                {
+                    count += GetNodeCount(child);
+                }
+
+                return count; 
             }
 
             public void Reset()
             {
-                throw new NotImplementedException();
+                childEnumerator.Reset();
             }
 
-            public TreeNode Current { get; }
+            public TreeNode Current => currentRoot;
 
             object IEnumerator.Current => Current;
 
             public void Dispose()
             {
-                throw new NotImplementedException();
+                childEnumerator = null;
             }
         }
 
