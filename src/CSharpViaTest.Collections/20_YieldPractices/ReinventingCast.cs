@@ -30,11 +30,11 @@ namespace CSharpViaTest.Collections._20_YieldPractices
 
         public static IEnumerable<TResult> MyCast<TResult>(this IEnumerable source)
         {
-            if (source == null || source.GetEnumerator() == null) 
+            if (source == null) 
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException();             
             }
-            
+
             foreach (var element in source)
             {
                 var tempElement = default(TResult);
@@ -42,19 +42,14 @@ namespace CSharpViaTest.Collections._20_YieldPractices
                 {
                     tempElement = (TResult)element;
                 }
-                catch(InvalidCastException)
+                catch
                 {
-                    throw new InvalidCastException();
-                }
-                catch(NullReferenceException)
-                {
-                    throw new NullReferenceException();                    
+                    throw ;
                 }
 
-                yield return tempElement;    
+                yield return tempElement;
             }
         }
-
         #endregion
     }
 
@@ -65,6 +60,7 @@ namespace CSharpViaTest.Collections._20_YieldPractices
         [SuppressMessage("ReSharper", "UnusedVariable")]
         public void CastIntToLongThrows()
         {
+            //int to long why exception
             IEnumerable<int> q = from x in new[] { 9999, 0, 888, -1, 66, -777, 1, 2, -12345 }
                 where x > int.MinValue
                 select x;

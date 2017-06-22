@@ -69,7 +69,6 @@ namespace CSharpViaTest.Collections._10_EnumerablePractices
         class TreeNodeEnumerator : IEnumerator<TreeNode>
         {
             private TreeNode currentRoot;
-            private TreeNode current;
             private TreeNode root;
             private List<TreeNode> result;
             private IEnumerator childEnumerator;

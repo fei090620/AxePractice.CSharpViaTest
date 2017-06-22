@@ -32,7 +32,7 @@ namespace CSharpViaTest.Collections._20_YieldPractices
         {
             for (int i = 0; i < count; i++)
             {
-                yield return new String(character, i +1);
+                yield return new String(character, i + 1);
             }
         }
 

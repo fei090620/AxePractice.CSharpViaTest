@@ -38,7 +38,7 @@ namespace CSharpViaTest.Collections._20_YieldPractices
 
         static IEnumerable<int> TakeUntilError(IEnumerable<int> sequence)
         {
-            throw new NotImplementedException();
+            return sequence;
         }
 
         #endregion
